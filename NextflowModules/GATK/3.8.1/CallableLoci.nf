@@ -5,7 +5,7 @@ process CallableLoci {
   label 'GATK_3_8_1_CallableLoci'
   clusterOptions = workflow.profile == "sge" ? "-l h_vmem=${params.mem}" : ""
   // container = 'docker://broadinstitute/gatk3:3.8-1'
-  container = 'quay.io/biocontainers/gatk:3.8--hdfd78af_11'
+  container = 'quay.io/biocontainers/gatk:3.8--hdfd78af_12'
   shell = ['/bin/bash', '-euo', 'pipefail']
 
   input:

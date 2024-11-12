@@ -5,5 +5,9 @@ resources/hg38/smurf/Mutational_blacklists/*.bed
 resources/hg38/gripss/gridss_pon_breakpoint.bedpe
 resources/hg38/cobalt/COBALT_PTA_Normalized_Full.txt
 resources/hg38/cobalt/COBALT_PTA_Normalized_Full_OLD.txt
-
 demo/
+.nextflow*
+containers/
+out/
+work/
+ptato_1.2.0.sif
