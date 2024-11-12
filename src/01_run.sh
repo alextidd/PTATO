@@ -5,10 +5,7 @@ module load singularity
 module load ISG/rocker/rver/4.4.0 
 export R_LIBS_USER=$HOME/R-tmp-4.4
 nextflow run ptato.nf \
-  --report.overwrite true \
-  --trace.overwrite true \
-  --timeline.overwrite true \
-  --singularity.runOptions 
+  -c configs/run.config \
   -c ~/.nextflow/config \
   -c configs/run-template.config \
   -c configs/nextflow.config \
@@ -16,4 +13,5 @@ nextflow run ptato.nf \
   -c configs/resources.config \
   --out_dir out/ \
   -w work/ \
-  -resume
+  -resume \
+  -N at31@sanger.ac.uk

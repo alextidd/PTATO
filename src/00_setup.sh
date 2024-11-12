@@ -14,9 +14,12 @@ tar -xzvf resources/hg38/smurf/Mutational_blacklists/Fetal_15x_raw_variants_hg38
 tar -xzvf resources/hg38/smurf/Mutational_blacklists/MSC_healthyBM_raw_variants_hg38.tar.gz -C resources/hg38/smurf/Mutational_blacklists/
 
 # get reference genome
-ln -s \
-  /lustre/scratch125/casm/team268im/fa8/117/PTA_49686/PTATO/resources/hg38/Homo_sapiens.GRCh38.dna_sm.toplevel.* \
-  resources/hg38/
+for file in /lustre/scratch125/casm/team268im/fa8/117/PTA_49686/PTATO/resources/hg38/Homo_sapiens.GRCh38.dna_sm.toplevel.fa* ; do
+  suff=${file#*.fa}
+  echo $suff
+  ln -s $file resources/hg38/Homo_sapiens_assembly38.fasta${suff}
+done
+mv resources/hg38/Homo_sapiens_assembly38.fasta.dict resources/hg38/Homo_sapiens_assembly38.dict
 
 # download shapeit phasing reference
 mkdir -p resources/hg38/shapeit/Phasing_reference/
