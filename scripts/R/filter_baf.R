@@ -8,6 +8,7 @@
   return( sourcedir )
 }
 sourcedir <- .getSourceDir()
+saveRDS(sourcedir, "sourcedir.rds")
 
 library(VariantAnnotation)
 library(gtools)
@@ -18,6 +19,7 @@ options(scipen = 999)
 
 # Get arguments
 args = commandArgs(trailingOnly=TRUE)
+saveRDS(args, "args.rds")
 SNV_VCF <- args[1]
 SAMPLE <- args[2]
 NORMAL <- args[3]

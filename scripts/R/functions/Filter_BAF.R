@@ -6,6 +6,7 @@
 
 Filter_BAF <- function(SNV_VCF_File, OUTPUT_dir, SAMPLE, NORMAL,
                        CENTROMERES, CYTOBAND, MIN_DEPTH_SAMPLE = 5, MIN_DEPTH_NORMAL = 10, CHR_SIZES){
+  # SNV_VCF_File = SNV_VCF; CENTROMERES = CENTROMERES_g; CYTOBAND = CYTOBAND_g; CHR_SIZES = Genome
 
   BAF_Output_File <-  paste(OUTPUT_dir, ".baf.filtered.txt", sep = "")
 
