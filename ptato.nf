@@ -29,13 +29,24 @@ include {
 
 workflow {
   main:
+
+    // Check if the file ends with .fa or .fasta, and replace with .dict
+    def genome_dict = params.genome_fasta.endsWith('.fasta') ? 
+                      params.genome_fasta.replace('.fasta', '.dict') : 
+                      params.genome_fasta.replace('.fa', '.dict')
+
+    genome_fasta = [ \
+      file(params.genome_fasta, checkIfExists: true),
+      file("${params.genome_fasta}.fai", checkIfExists: true),
+      file(genome_dict, checkIfExists: true)]
+    
     run_donor_ids = Channel.from( params.bulk_names )
       .map{
         donor_id, bulk_name ->
         [donor_id]
       }
       .unique()
-
+    
     input_raw_vcfs = run_donor_ids.combine( extractInputVcfFromDir( params.input_vcfs_dir ), by: [0] )
     input_raw_bams = run_donor_ids.combine( extractBamsFromDir( params.bams_dir ), by: [0] )
 
@@ -43,9 +54,9 @@ workflow {
     input_bams = get_indexed_bams.out.groupTuple( by: [0] )
 
     if ( params.run.QC || params.run.postqc) {
-      RunCallableLoci( input_bams )
+      RunCallableLoci( input_bams, genome_fasta )
       if ( params.run.QC) {
-        qc( input_bams )
+        qc( input_bams, genome_fasta )
       }
     }
 
@@ -89,7 +100,7 @@ workflow {
         filtered_cnv_files = cnvs.out
 
         if ( params.run.svs ) {
-          svs( input_bams, germline_vcfs, filtered_cnv_files )
+          svs( input_bams, germline_vcfs, filtered_cnv_files, genome_fasta )
         }
       }
     }

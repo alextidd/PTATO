@@ -10,6 +10,7 @@ process CallableLoci {
 
   input:
     tuple( val(donor_id), val(sample_id), path(bam), path(bai) )
+    tuple( path(fa), path(fai), path(dict) )
 
   output:
     tuple( val(donor_id), val(sample_id), path("${sample_id}.callableloci.bed"), path("${sample_id}.callableloci.txt"), emit: callableloci_files )
@@ -21,7 +22,7 @@ process CallableLoci {
     /usr/local/opt/gatk-3.8/GenomeAnalysisTK.jar \
     -T CallableLoci \
     -I ${bam} \
-    -R ${params.genome_fasta} \
+    -R ${fa} \
     -o ${sample_id}.callableloci.bed \
     --summary ${sample_id}.callableloci.txt \
     ${params.callableloci.optional}

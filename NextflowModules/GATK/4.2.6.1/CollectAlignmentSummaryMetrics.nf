@@ -9,6 +9,7 @@ process CollectAlignmentSummaryMetrics {
 
   input:
     tuple( val(donor_id), val(sample_id), path(bam), path(bai) )
+    tuple( path(fa), path(fai), path(dict) )
 
   output:
     tuple( val(donor_id), val(sample_id), path("${sample_id}.alignment_summary_metrics.txt"), emit: alignment_summary_metrics )
@@ -19,7 +20,7 @@ process CollectAlignmentSummaryMetrics {
     CollectAlignmentSummaryMetrics \
     -I ${bam} \
     -O ${sample_id}.alignment_summary_metrics.txt \
-    -R ${params.genome_fasta} \
+    -R ${fa} \
     ${params.collectalignmentsummarymetrics.optional}
     sed -i 's/picard\\.analysis\\.AlignmentSummaryMetrics/picard\\.analysis\\.CollectAlignmentSummaryMetrics\\\$AlignmentSummaryMetrics/' ${sample_id}.alignment_summary_metrics.txt
     """

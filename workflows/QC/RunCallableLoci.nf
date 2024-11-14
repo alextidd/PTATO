@@ -10,11 +10,12 @@ include { AutosomalCallableLoci } from '../../NextflowModules/Utils/AutosomalCal
 workflow RunCallableLoci {
   take:
     bams
+    genome_fasta
   main:
     if ( params.optional.callableloci_dir ) {
       callableloci_files = extractCallableLociBedFromDir( params.optional.callableloci_dir )
     } else {
-      CallableLoci( bams.transpose() )
+      CallableLoci( bams.transpose(), genome_fasta )
       callableloci_files = CallableLoci.out
         .map{ donor_id, sample_id, callableloci_bed, callableloci_txt ->
           bed_filename = callableloci_bed.getName()

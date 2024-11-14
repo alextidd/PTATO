@@ -16,11 +16,12 @@ include { postQCreport } from '../NextflowModules/Utils/postQCreport.nf' params(
 workflow qc {
   take:
     bams
+    genome_fasta
   main :
     if ( params.optional.qc.alignment_summary_metrics_dir ) {
       alignment_summary_metrics_files = extractAlignmentSummaryMetricsFromDir( params.optional.qc.alignment_summary_metrics_dir )
     } else {
-      CollectAlignmentSummaryMetrics( bams.transpose() )
+      CollectAlignmentSummaryMetrics( bams.transpose(), genome_fasta )
       alignment_summary_metrics_files = CollectAlignmentSummaryMetrics.out
         .map{ donor_id, sample_id, alignment_summary_metrics_file ->
           filename = alignment_summary_metrics_file.getName()
@@ -32,7 +33,7 @@ workflow qc {
     if ( params.optional.qc.wgs_metrics_dir ) {
       wgs_metrics_files = extractWGSMetricsFromDir( params.optional.qc.wgs_metrics_dir )
     } else {
-      CollectWGSMetrics( bams.transpose() )
+      CollectWGSMetrics( bams.transpose(), genome_fasta )
       wgs_metrics_files = CollectWGSMetrics.out
         .map{ donor_id, sample_id, wgs_metrics_file ->
           filename = wgs_metrics_file.getName()

@@ -9,6 +9,7 @@ process CollectWGSMetrics {
 
   input:
     tuple( val(donor_id), val(sample_id), path(bam), path(bai) )
+    tuple( path(fa), path(fai), path(dict) )
 
   output:
     tuple( val(donor_id), val(sample_id), path("${sample_id}.wgs_metrics.txt"), emit: wgs_metrics )
@@ -19,7 +20,7 @@ process CollectWGSMetrics {
     CollectWgsMetrics \
     -I ${bam} \
     -O ${sample_id}.wgs_metrics.txt \
-    -R ${params.genome_fasta} \
+    -R ${fa} \
     ${params.collectwgsmetrics.optional}
     sed -i 's/picard\\.analysis\\.WgsMetrics/picard\\.analysis\\.CollectWgsMetrics\\\$WgsMetrics/' ${sample_id}.wgs_metrics.txt
     """
