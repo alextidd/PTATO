@@ -4,7 +4,9 @@ process QCreport {
   shell = ['/bin/bash', '-euo', 'pipefail']
 
   input:
-    tuple( val(donor_id), val(sample_ids), path(insert_size_metrics_files), path(wgs_metrics_files) )
+    tuple( val(donor_id), val(sample_ids),
+           path(insert_size_metrics_files, stageAs: 'align_summ_metrics?.txt'),
+           path(wgs_metrics_files) )
 
   output:
     tuple( val(donor_id), path("${donor_id}.qcreport.pdf"), path("${donor_id}.qcreport.txt"), emit: qc_report_pdf )
