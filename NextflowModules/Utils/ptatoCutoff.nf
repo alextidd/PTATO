@@ -14,6 +14,14 @@ process ptatoCutoff {
     host=\$(hostname)
     echo \${host}
 
-    R --slave --file=${baseDir}/scripts/R/ptatoCutoff.R --args ${ptato_vcf} ${walker_vcf} ${params.ref_genome} ${params.ptatocutoff.optional} ${sample_id}.ptatotable.txt > ${sample_id}.ptaprobcutoff.txt
+    R --vanilla --slave \\
+      --file=${baseDir}/scripts/R/ptatoCutoff.R \\
+      --args \\
+      ${ptato_vcf} \\
+      ${walker_vcf} \\
+      ${params.ref_genome} \\
+      ${params.ptatocutoff.optional} \\
+      ${sample_id}.ptatotable.txt \\
+      ${sample_id}.ptaprobcutoff.txt
     """
 }

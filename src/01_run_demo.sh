@@ -1,4 +1,5 @@
 #!/bin/bash
+# cd /lustre/scratch125/casm/team268im/at31/PTATO ; bsub -q long -M2000 -R 'span[hosts=1] select[mem>2000] rusage[mem=2000]' -J ptato_demo -o log/ptato_demo_%J.out -e log/ptato_demo_%J.err 'bash src/01_run_demo.sh'
 
 # run demo
 module load singularity

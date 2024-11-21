@@ -11,6 +11,7 @@ walker_vcf_fname = args[2]
 ref_genome = args[3]
 prec_cutoff = args[4]
 out_table_fname = args[5]
+out_cutoff_fname = args[6]
 
 library( ref_genome, character.only = TRUE )
 genome <- gsub(ref_genome, pattern = ".*\\.", replacement = "") # assuming the ref_genome is BSgenome object (eg BSgenome.Hsapiens.UCSC.hg38)
@@ -145,5 +146,5 @@ if ( length(grep("indels.ptato",ptato_vcf_fname)) > 0 ) {
     PTAprob_cutoff <- mean(PTAprob_cutoff_conf)
   }
 
-  cat( PTAprob_cutoff, PTAprob_cutoff_conf )
+  writeLines(paste(PTAprob_cutoff, paste(PTAprob_cutoff_conf, collapse = " ")), out_cutoff_fname)
 }
