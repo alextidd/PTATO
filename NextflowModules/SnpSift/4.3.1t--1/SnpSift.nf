@@ -3,7 +3,6 @@ process SnpSift {
   label 'SnpSift'
   label 'SnpSift_4_3_1t__1'
   shell = ['/bin/bash', '-euo', 'pipefail']
-  container = 'docker://davelabhub/snpsift:4.3.1t--1'
 
   input:
     tuple( val(donor_id), val(sample_id), path(vcf_gz), path(tbi), val(normal_sample_ids) )
