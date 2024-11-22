@@ -1,5 +1,6 @@
 resources/hg38/Homo*
 resources/hg38/shapeit/Phasing_reference/*
+resources/hg38/shapeit/Phasing_reference_no_chr/*
 resources/hg38/shapeit/shapeit_maps/*
 resources/hg38/smurf/Mutational_blacklists/*.bed
 resources/hg38/gripss/gridss_pon_breakpoint.bedpe

@@ -20,7 +20,7 @@ process shapeit {
     --input ${vcf_gz} \
     --region ${chrom} \
     --output ${sample_id}.${chrom}.phased.vcf.gz \
-    --map ${params.shapeit.maps}/chr${chrom}.b38.gmap.gz \
+    --map ${params.shapeit.maps}/${chrom}.b38.gmap.gz \
     --thread ${task.cpus} \
     --sequencing \
     --reference ${params.shapeit.reference}/CCDG_14151_B01_GRM_WGS_2020-08-05_chr${chrom}.filtered.shapeit2-duohmm-phased.vcf.gz \
