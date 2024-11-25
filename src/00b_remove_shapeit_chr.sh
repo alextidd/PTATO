@@ -29,3 +29,45 @@ for vcf in resources/hg38/shapeit/Phasing_reference/*.vcf.gz; do
 done
 
 echo "All files processed successfully."
+
+# rename shapeit maps
+mkdir resources/hg38/shapeit/shapeit_maps_no_chr/
+for file in resources/hg38/shapeit/shapeit_maps/chr* ; do
+  filename=$(basename $file)
+  echo resources/hg38/shapeit/shapeit_maps/${filename#chr}
+  cp $file resources/hg38/shapeit/shapeit_maps_no_chr/${filename#chr}
+done
+
+# Dan's solution:
+module load bcftools
+module load tabix
+
+# create key for bcftools annotate
+for chr in {1..22} X ; do 
+    echo chr${chr} ${chr}
+done >> chr_names.txt
+
+# rename - will error on X
+for chr in {1..22} X; do
+  echo start $chr
+  bcftools annotate \
+    --rename-chrs chr_names.txt \
+    Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_chr${chr}.filtered.shapeit2-duohmm-phased.vcf.gz \
+    -Oz \
+    -o Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_${chr}.filtered.shapeit2-duohmm-phased.vcf.gz
+  tabix -p vcf \
+    Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_${chr}.filtered.shapeit2-duohmm-phased.vcf.gz
+done
+
+# fix X
+bcftools annotate \
+  --threads 2 \
+  --rename-chrs chr_names.txt \
+  Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz \
+  -Oz \
+  -o Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_X.filtered.eagle2-phased.v2.vcf.gz;
+tabix -p vcf \
+  Phasing_reference/CCDG_14151_B01_GRM_WGS_2020-08-05_X.filtered.eagle2-phased.v2.vcf.gz
+
+# clean up 
+rm chr_names.txt
