@@ -4,6 +4,8 @@ process smurf {
   label 'SMuRF_3_0_1'
   shell = ['/bin/bash', '-euo', 'pipefail']
   container = 'docker://vanboxtelbioinformatics/smurf:3.0.1'
+  time { params.smurf.time * task.attempt }
+  errorStrategy 'retry'
 
   input:
     tuple( val(donor_id), val(germline_sample_id), path(germline_vcf), path( germline_tbi), val(bam_sample_ids), val(bam_files), val(bai_files), val(bulk_names) )
